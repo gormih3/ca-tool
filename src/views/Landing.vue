@@ -5,7 +5,7 @@
         <div class="modal-card-body has-text-centered">
           <div class="title mb-6">Project Catalyst Fund7 Assess Stage<br />has not started yet!<br />Use the tool for testing!</div>
           <div class="counter-box mb-6" v-if="secsToRegistration > 0">
-            <span class="is-size-4 has-text-weight-bold">Community Advisors registrations starts in: </span>
+            <span class="is-size-4 has-text-weight-bold">Proposal Assessors registrations starts in: </span>
             <counter :d="toReg.d" :h="toReg.h" :m="toReg.m" :s="toReg.s" />
             <span class="is-size-4 has-text-weight-bold">{{ fRegistrationsStart }} UTC</span>
           </div>
@@ -18,8 +18,8 @@
         <footer class="modal-card-foot">
           <b-button label="Close" @click="modalActivable = false" />
           <div class="subtitle ml-6">
-            In the meantime take a look at the <a href="https://cardanocataly.st/en/community-advisor/guide.html" target="_blank">
-              CA Assessment Guide</a>.
+            In the meantime take a look at the <a href="https://bit.ly/CA-Guide" target="_blank">
+              PA Guide</a>.
           </div>
         </footer>
       </div>
@@ -39,8 +39,8 @@ export default {
   },
   data() {
     return {
-      registrationStartsUTC: this.$dayjs.utc('2022-03-10 11:00:00', 'YYYY-MM-DD HH:mm:ss'),
-      assessStartsUTC: this.$dayjs.utc('2022-03-17 11:00:00', 'YYYY-MM-DD HH:mm:ss'),
+      registrationStartsUTC: this.$dayjs.utc('2022-06-23 11:00:00', 'YYYY-MM-DD HH:mm:ss'),
+      assessStartsUTC: this.$dayjs.utc('2022-06-30 11:00:00', 'YYYY-MM-DD HH:mm:ss'),
       now: this.$dayjs().utc().unix(),
       modalActivable: true,
       interval: false

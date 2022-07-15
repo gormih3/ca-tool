@@ -1,6 +1,6 @@
 import router from '@/router'
-import staticProposals from '@/assets/data/f8/proposals.json'
-import categoriesJson from '@/assets/data/f8/categories.json'
+import staticProposals from '@/assets/data/f9/proposals.json'
+import categoriesJson from '@/assets/data/f9/categories.json'
 
 const allChallenge = categoriesJson[0]
 // initial state
@@ -9,6 +9,8 @@ const getDefaultState = () => ({
   keyword: '',
   selectedChallenges: [allChallenge],
   selectedTags: [],
+  minPrice: 0,
+  maxPrice: 0,
   proposals: staticProposals,
   lastUpdate: false
 })
@@ -27,6 +29,11 @@ const getters = {
     if (state.selectedTags.length > 0) {
       lproposals = lproposals.filter(proposal => proposal?.tags ? state.selectedTags.every(tag => proposal.tags.includes(tag)) : false)
     }
+
+    const currentMinPrice = state.minPrice || 0
+    const currentMaxPrice = state.maxPrice || Number.MAX_SAFE_INTEGER
+    lproposals = lproposals.filter(proposal => currentMinPrice < proposal?.requested_funds && proposal?.requested_funds < currentMaxPrice)
+
     let locAssessmentsIds = rootGetters['assessments/ids']
     if (locAssessmentsIds.length > 0) {
       lproposals = lproposals.filter(p => locAssessmentsIds.indexOf(p.id) === -1)
@@ -39,11 +46,11 @@ const getters = {
     return lproposals
       // .sort(() => (Math.random() > .5) ? 1 : -1)
       .sort(
-        (a,b) => (a.no_assessments > b.no_assessments) ? 1 : ((b.no_assessments > a.no_assessments) ? -1 : 0)
+        (a, b) => (a.no_assessments > b.no_assessments) ? 1 : ((b.no_assessments > a.no_assessments) ? -1 : 0)
       )
   },
   totalCount: (state) => {
-    return state.proposals.reduce((n, {no_assessments}) => n + (no_assessments || 0), 0)
+    return state.proposals.reduce((n, { no_assessments }) => n + (no_assessments || 0), 0)
   },
   totalProposals: (state) => {
     return state.proposals.length
@@ -59,7 +66,7 @@ const getters = {
 
 // actions
 const actions = {
-  getAssessmentsCount ({ commit }) {
+  getAssessmentsCount({ commit }) {
     const proposals = staticProposals
     this._vm.$http.get('proposals.json').then((res) => {
       if (res.data) {
@@ -74,7 +81,7 @@ const actions = {
       }
     })
   },
-  getLastUpdate ({ commit }) {
+  getLastUpdate({ commit }) {
     let lastCommitUrl = `${process.env.VUE_APP_GITHUB_API_BACKEND_URL}commits?per_page=1`
     this._vm.$http.get(lastCommitUrl).then((res) => {
       if (res.data) {
@@ -93,7 +100,7 @@ const actions = {
       if (router.currentRoute.name === 'Proposal' || !fromFilter) {
         currentId = router.currentRoute.params.id
         if (newId !== currentId) {
-          router.push({ name: 'Proposal', params:{ id: newId }})
+          router.push({ name: 'Proposal', params: { id: newId } })
         }
       }
       commit('setCurrentIndex', state.currentIndex + 1)
@@ -105,10 +112,10 @@ const actions = {
 
 // mutations
 const mutations = {
-  setLastUpdate (state, lastUpdate) {
+  setLastUpdate(state, lastUpdate) {
     state.lastUpdate = lastUpdate
   },
-  setProposals (state, proposals) {
+  setProposals(state, proposals) {
     state.proposals = proposals
   },
   addChallenge(state, challenge) {
@@ -154,10 +161,18 @@ const mutations = {
     state.keyword = keyword
     this.dispatch('filters/getNext', true)
   },
+  setMinPrice(state, minPrice) {
+    state.minPrice = minPrice
+    this.dispatch('filters/getNext', true)
+  },
+  setMaxPrice(state, maxPrice) {
+    state.maxPrice = maxPrice
+    this.dispatch('filters/getNext', true)
+  },
   setCurrentIndex(state, index) {
     state.currentIndex = index
   },
-  resetState (state) {
+  resetState(state) {
     //state.currentIndex = 0
     //state.keyword = ''
     //state.selectedChallenges = []

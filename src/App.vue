@@ -24,15 +24,15 @@
         <b-navbar-item tag="router-link" :to="{ name: 'Assessed' }">
           {{myAssessmentsLink}}
         </b-navbar-item>
-        <b-navbar-dropdown right label="CA Resources">
+        <b-navbar-dropdown right label="PA Resources">
           <b-navbar-item tag="a" target="_blank" href="https://www.youtube.com/playlist?list=PLDLKmC_jWczVff7Gv6J5nmKLl52mVCT9q">
-            Catalyst School workshops for CAs
+            Catalyst School workshops for PAs
           </b-navbar-item>
           <b-navbar-item tag="a" target="_blank" href="https://docs.google.com/document/d/1g-iZhDlKhUBZkui1uv8NVNfJC4oVD3JtR-P6Fue7XPU">
-            Assessment Guide
+            PA Guide
           </b-navbar-item>
           <b-navbar-item tag="a" target="_blank" href="https://t.me/CatalystCommunityAdvisors">
-            Telegram CAs chat
+            Telegram PAs chat
           </b-navbar-item>
         </b-navbar-dropdown>
       </template>
@@ -87,8 +87,8 @@ import Counter from '@/components/Counter'
 export default {
   data() {
     return {
-      assessStartsUTC: this.$dayjs.utc('2022-03-17 11:00:00', 'YYYY-MM-DD HH:mm:ss'),
-      assessEndsUTC: this.$dayjs.utc('2022-03-25 11:00:00', 'YYYY-MM-DD HH:mm:ss'),
+      assessStartsUTC: this.$dayjs.utc('2022-06-30 11:00:00', 'YYYY-MM-DD HH:mm:ss'),
+      assessEndsUTC: this.$dayjs.utc('2022-07-14 11:00:00', 'YYYY-MM-DD HH:mm:ss'),
       now: this.$dayjs().utc().unix(),
       interval: false
     }
@@ -132,7 +132,7 @@ export default {
   },
   mounted() {
     if (window.localStorage) {
-      let oldKeys = ['ca-tool-default']
+      let oldKeys = ['ca-tool-default', 'ca-tool-f8-default']
       oldKeys.forEach((k) => {
         let oldKey = window.localStorage.getItem(k)
         if (oldKey) {
