@@ -13,6 +13,14 @@
       </b-field>
       <div class="criterium mb-4 columns is-multiline">
         <div class="column is-12">
+          <h4 v-if="this.assessment.createdDateTime"> Created: {{ this.assessment.createdDateTime }}</h4>
+          <h4 v-else> Created: N/A</h4>
+        </div>      
+        <div class="column is-12">
+          <h4 v-if="this.assessment.lastModifiedDateTime"> Last modification: {{ this.assessment.lastModifiedDateTime }}</h4>
+          <h4 v-else> Last modification: N/A</h4>
+        </div>              
+        <div class="column is-12">
           <h4>{{ criterium(1).question }}</h4>
         </div>
         <div class="column is-2">

@@ -57,6 +57,14 @@ const mutations = {
   },
   addAssessment (state, proposalId) {
     let assessment = defaultAssessment(proposalId)
+    
+    if (!assessment.createdDateTime) {
+      assessment.createdDateTime = new Date().toLocaleString();
+      assessment.lastModifiedDateTime = assessment.createdDateTime;
+    } else {
+      assessment.lastModifiedDateTime = new Date().toLocaleString()
+    }
+
     state.all.push(assessment)
   },
   deleteAssessment (state, id) {
